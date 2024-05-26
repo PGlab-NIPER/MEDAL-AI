@@ -1,0 +1,15 @@
+{
+    "medkg": {
+        "connector_type": "neo4j",
+        "host": "localhost",
+        "port": 7687
+    },
+   "primekg": {
+        "connector_type": "neo4j",
+        "host": "192.168.0.115",
+        "port": 7689
+   },
+   "user": "neo4j",
+   "password": "password",
+   "log_level": "DEBUG"
+}
