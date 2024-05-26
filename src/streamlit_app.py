@@ -14,35 +14,45 @@ def list_model_files(directory):
         st.error(f"Error loading models: {e}")
         return []
 
+@st.cache_resource
+def load_data():
+    # Your code to load or process data here
+    model_files = list_model_files(MODEL_DIR)
+    return load_model(MODEL_DIR + model_files[0])
+    
+load_data()
+
 # Hugging Face Credentials
 with st.sidebar:
     st.title('MEDAL-AI')
     st.markdown('📖 Medical Expert for Diagnostic Accuracy and Learning 📖')
     model_files = list_model_files(MODEL_DIR)
     model_files = [None] + model_files
-    selected_model = st.selectbox('Select Model',options=model_files)
+    # selected_model = st.selectbox('Select Model',options=model_files)
     
-    # Load and Unload buttons
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button('Load'):
-            with st.spinner('Loading...'):
-                load_model(MODEL_DIR + selected_model)
-                st.session_state['loaded_model'] = selected_model
-                st.success(f"Model '{selected_model}' loaded!")
-    with col2:
-        if st.button('Unload'):
-            with st.spinner('Unloading...'):
-                if 'loaded_model' in st.session_state:
-                    unload_model()
-                    st.success(f"Model '{st.session_state['loaded_model']}' unloaded!")
-                    del st.session_state['loaded_model']
-                else:
-                    st.warning('No model is currently loaded.')
+    # # # Load and Unload buttons
+    # col1, col2 = st.columns(2)
+    # with col1:
+    #     if st.button('Load'):
+    #         with st.spinner('Loading...'):
+    #             load_model(MODEL_DIR + selected_model)
+    #             st.session_state['loaded_model'] = selected_model
+    #             st.success(f"Model '{selected_model}' loaded!")
+    # with col2:
+    #     if st.button('Unload'):
+    #         with st.spinner('Unloading...'):
+    #             if 'loaded_model' in st.session_state:
+    #                 unload_model()
+    #                 st.success(f"Model '{st.session_state['loaded_model']}' unloaded!")
+    #                 del st.session_state['loaded_model']
+    #             else:
+    #                 st.warning('No model is currently loaded.')
     
-    st.container(height=425, border=0)
+    st.container(height=525, border=0)
     if st.button('Clear'):
         st.session_state.messages = [{"role": "assistant", "content": "How may I help you?"}]
+    
+    # load_model(MODEL_DIR)
     
     
 # Store LLM generated responses

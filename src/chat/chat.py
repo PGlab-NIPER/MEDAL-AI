@@ -38,20 +38,23 @@ rag_pipeline = None
 
 def load_model(model_name):
     global model, tokenizer, rag_pipeline
-    path = Path(model_name)
-    # path = Path('D:\\workspace\\models\\meditron-7b-q8_0.gguf')
-    if path.is_file():
-        model_file = path
-    else:
-        model_file = list(path.glob('*.gguf'))[0]
 
-    logger.info(f"llama.cpp weights detected: \"{model_file}\"")
+    if not model:
+        model_name = model_name
+        path = Path(model_name)
+        # path = Path('D:\\workspace\\models\\meditron-7b-q8_0.gguf')
+        if path.is_file():
+            model_file = path
+        else:
+            model_file = list(path.glob('*.gguf'))[0]
 
-    # model_file = "D:\\workspace\\KGWork\\llama3_lora_model\\"
+        logger.info(f"llama.cpp weights detected: \"{model_file}\"")
 
-    model, tokenizer = LlamaCppModel.from_pretrained(model_file)
-    rag_pipeline = KGRag("neo4j", model)
-    rag_pipeline.initialise_vector_indexes()
+        # model_file = "D:\\workspace\\KGWork\\llama3_lora_model\\"
+
+        model, tokenizer = LlamaCppModel.from_pretrained(model_file)
+        rag_pipeline = KGRag("neo4j", model)
+        rag_pipeline.initialise_vector_indexes()
 
     # rag_pipeline.evaluate_using_rag(file_path="H:\\Downloads\\ori_pqal.json")
 
