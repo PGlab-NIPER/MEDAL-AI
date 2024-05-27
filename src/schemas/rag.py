@@ -64,15 +64,9 @@ class KGRag(Rag):
         return
     
     def setup_rag_pipeline(self):
-        # cq = """You are a medical chat assistant who answers user queries based on the context provided. 
-        #     Keep the response precise and include all the requested information. Do not apologise or repeat responses. 
-        #     In case you dont know the answer, Say `Apologies, I do not know the answer to this query.`
-
-        #     Context: {context}
-        # """
-
-        cq = """
-            Based on the given context asnwer the given question in wither a `yes`, `no` or `maybe` response.
+        cq = """You are a medical chat assistant who answers user queries based on the context provided. 
+            Keep the response precise and include all the requested information. Do not apologise or repeat responses. 
+            In case you dont know the answer, Say `Apologies, I do not know the answer to this query.`
 
             Context: {context}
         """
