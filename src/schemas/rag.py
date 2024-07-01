@@ -13,7 +13,7 @@ from langchain_core.runnables import (ConfigurableField, Runnable,
 # from llama_index.llms.llama_utils import messages_to_prompt, completion_to_prompt
 
 
-URI = "neo4j://localhost:7690"
+URI = "neo4j://localhost:7687"
 AUTH = ("neo4j", "password")
 
 class Rag:
@@ -76,8 +76,12 @@ class KGRag(Rag):
         """
 
         def get_chat_template(question):
-            cqq = cq.format(context=question["context"])
+            if len(question.get("context")) > 4096:
+                cqq = cq.format(context=question["context"][:4096])
+            else:
+                cqq = cq.format(context=question["context"])
             print("context: ", question["context"])
+
             return [
                 { "role": "system", "content": cqq},
                 { "role": "user", "content": question['question']}

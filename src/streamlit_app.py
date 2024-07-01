@@ -45,7 +45,7 @@ def list_model_files(directory):
 @st.cache_resource
 def load_data():
     model_files = list_model_files(MODEL_DIR)
-    return load_model(MODEL_DIR + model_files[1])
+    return load_model(MODEL_DIR + model_files[0])
 
 # Display the custom loading indicator
 placeholder = st.empty()
