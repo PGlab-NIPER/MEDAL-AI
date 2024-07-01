@@ -102,7 +102,7 @@ def get_response(sentence, callback):
     #             print(f"{bot_name}: {random.choice(intent['responses'])}")
     # else:
     if response:
-        ret_val = f"{bot_name}: {response}"
+        ret_val = f"{response}"
         return ret_val
-    print(f"{bot_name}: I do not understand...", sentence)
+    print(f"I do not understand...", sentence)
     return "Null"

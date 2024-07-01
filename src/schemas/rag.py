@@ -10,6 +10,8 @@ from langchain_core.runnables import (ConfigurableField, Runnable,
                                       RunnableConfig, RunnableParallel,
                                       RunnablePassthrough,
                                       RunnableSerializable, ensure_config)
+# from llama_index.llms.llama_utils import messages_to_prompt, completion_to_prompt
+
 
 URI = "neo4j://localhost:7690"
 AUTH = ("neo4j", "password")
@@ -64,32 +66,28 @@ class KGRag(Rag):
         return
     
     def setup_rag_pipeline(self):
-        cq = """You are a medical chat assistant who answers user queries based on the context provided. 
+        # In your responses do not mention or refer to the context like ```According to the provided information```, ```From the provided context``` etc, just use it to answer the question.
+        cq = """You are a medical chat assistant who answers user queries lieka professional Medical Expert.
+            Use the context provided to help answer the user queries.
             Keep the response precise and include all the requested information. Do not apologise or repeat responses. 
-            In case you dont know the answer, Say `Apologies, I do not know the answer to this query.`
+            In case you dont know the answer or cannot find anything in the context, Say `Apologies, I do not know the answer to this query.`
 
             Context: {context}
         """
 
         def get_chat_template(question):
-            context_data = """
-                To assess the acceptability to patients of the use of patients' first names by doctors and doctors' first names by patients in general practice.
-                An administered questionnaire survey.
-                5 General practices in Lothian.
-                475 Patients consulting 30 general practitioners.
-                Response by patients to questionnaire on attitude to use of first names.
-                Most of the patients either liked (223) or did not mind (175) being called by their first names. Only 77 disliked it, most of whom were aged over 65. Most patients (324) did not, however, want to call the doctor by his or her first name.
-            """
             cqq = cq.format(context=question["context"])
+            print("context: ", question["context"])
             return [
                 { "role": "system", "content": cqq},
                 { "role": "user", "content": question['question']}
             ]
 
         def generate_with_configs(input):
+            print("input: ", input)
             return self.model.create_chat_completion(input,
                 max_tokens=4096,
-                temperature=0.9,
+                temperature=0.6,
                 top_p=0.1,
                 min_p=0.5,
                 typical_p=1,
@@ -136,6 +134,7 @@ class KGRag(Rag):
         return self.rag_chain
 
 
+    # @deprecated
     def evaluate_using_rag(self, file_path):
         # cq = """You are a medical chat assistant who answers user queries based on the context provided. The context will be provided as a knowledge graph where details will contain the information on the fetched data and then corresponsing interactions with other nodes. 
         #     Keep the response precise and include all the requested information. Do not apologise or repeat responses. 
