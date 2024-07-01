@@ -176,7 +176,7 @@ class Neo4jKG(KnowledgeGraph):
             text_node_properties=['name','description', 'full_description', 'synonyms_str'],
             embedding_node_property='embedding',
             search_type='hybrid',
-            # retrieval_query=retrieval_query
+            retrieval_query=retrieval_query
         )
 
         retrieval_query_dr = """
@@ -253,7 +253,7 @@ class Neo4jKG(KnowledgeGraph):
             text_node_properties=['name', 'description'],
             embedding_node_property='embedding',
             search_type='hybrid',
-            # retrieval_query=retrieval_query_dr
+            retrieval_query=retrieval_query_dr
         )
 
         retrieval_query_p = """
@@ -345,7 +345,7 @@ class Neo4jKG(KnowledgeGraph):
             text_node_properties=['name', 'accession', 'specific_function', 'function', 'synonyms_str'],
             embedding_node_property='embedding',
             search_type='hybrid',
-            # retrieval_query=retrieval_query_p
+            retrieval_query=retrieval_query_p
         )
     
     def get_retreiver(self):
