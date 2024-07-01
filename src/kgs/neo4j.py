@@ -120,7 +120,7 @@ class Neo4jKG(KnowledgeGraph):
                 match (node)-[e:IS_BIOMARKER_OF_DISEASE]-(d:Protein) with e, d limit 50
                 return {
                             name: d.name,
-                            biomarker_type: "Protein,
+                            biomarker_type: 'Protein',
                             normal_concentration: properties(e)
                         }
                 } as dmeta3,
@@ -128,7 +128,7 @@ class Neo4jKG(KnowledgeGraph):
                 match (node)-[e]-(d:Clinically_relevant_variant) with e, d limit 5
                 return {
                             interaction_type: type(e),
-                            name: "chromosome " + d.chromosome,
+                            name: 'chromosome ' + d.chromosome,
                             alternative_names: d.alternative_names
                         }
                 }  as dcrv, 
@@ -153,7 +153,7 @@ class Neo4jKG(KnowledgeGraph):
             node {
                 details:{
                     name: node.name,
-                    type: apoc.text.join(labels(node), ","),
+                    type: apoc.text.join(labels(node), ','),
                     description: node.full_description
                 },
                 disease_interaction: dd,
@@ -225,7 +225,7 @@ class Neo4jKG(KnowledgeGraph):
             node {
                 details:{
                     name: node.name,
-                    type: apoc.text.join(labels(node), ","),
+                    type: apoc.text.join(labels(node), ','),
                     description: node.description,
                     indication: node.indication,
                     mechanism_of_action: node.mechanism_of_action,
@@ -297,7 +297,7 @@ class Neo4jKG(KnowledgeGraph):
                 match (node)-[e]-(d:Clinically_relevant_variant) with e, d limit 5
                 return {
                             interaction_type: type(e),
-                            name: "chromosome " + d.chromosome,
+                            name: 'chromosome ' + d.chromosome,
                             alternative_names: d.alternative_names
                         }
                 }  as dcrv, 
@@ -322,7 +322,7 @@ class Neo4jKG(KnowledgeGraph):
             node {
                 details:{
                     name: node.name,
-                    type: apoc.text.join(labels(node), ","),
+                    type: apoc.text.join(labels(node), ','),
                     description: node.full_description,
                     translated_from_gene: gene1
                 },
@@ -360,4 +360,4 @@ class Neo4jKG(KnowledgeGraph):
             search_kwargs = {"k":3, 'score_threshold': 0.99}
         )
 
-        return retreiver_p
+        return retreiver
